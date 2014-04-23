@@ -4,6 +4,7 @@ ACTION="Open Push"
 TITLE="Push notification from `hostname`"
 SUBTITLE="`date`"
 ICONURL="https://dl.dropboxusercontent.com/u/172539/icons/vps.png"
+SOUND=""
 
 if [ -e ~/.goznotify ]; then
     source ~/.goznotify
@@ -13,7 +14,7 @@ else
 fi    
 
 OPTIND=1
-while getopts "a:t:u:s:i:" OPTION
+while getopts "a:t:u:s:i:b:" OPTION
 do
 	case $OPTION in
         a)
@@ -31,6 +32,9 @@ do
         i)
             ICONURL=$OPTARG
             ;;
+        b)
+            SOUND=$OPTARG
+            ;;
     esac
 done
 shift $((OPTIND-1))
@@ -40,15 +44,17 @@ MESSAGE=${1}
 # Send a notification
 
     /usr/bin/curl -s -d user_credentials=${APIKEY} \
-        -d "notification[message]=${MESSAGE}" \
         -d "notification[long_message]=${MESSAGE}" \
         -d "notification[title]=${TITLE}" \
-        -d "notification[subtitle]=${SUBTITLE}" \
-        -d "notification[long_message_preview]=${MESSAGE}" \
-        -d "notification[message_level]=2" \
-        -d "notification[silent]=0" \
-        -d "notification[icon_url]=${ICONURL}" \
-        -d "notification[action_loc_key]=${ACTION}" \
-        -d "notification[run_command]=${URL}" \
-        https://www.appnotifications.com/account/notifications.json > /dev/null
+        -d "notification[sound]=${SOUND}" \
+        ${URL} 
+
+#       -d "notification[message]=${MESSAGE}" \
+#        -d "notification[subtitle]=${SUBTITLE}" \
+#        -d "notification[long_message_preview]=${MESSAGE}" \
+#        -d "notification[message_level]=2" \
+#        -d "notification[silent]=0" \
+#        -d "notification[icon_url]=${ICONURL}" \
+#        -d "notification[action_loc_key]=${ACTION}" \
+#        -d "notification[run_command]=${URL}" \
 
