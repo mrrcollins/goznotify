@@ -42,12 +42,28 @@ shift $((OPTIND-1))
 MESSAGE=${1}
 
 # Send a notification
+if [ -z "${URL}" ]
+then
+    curl https://api.pushbullet.com/api/pushes -u v13Kku1VLbTZM03XxmGrqu5qT4HM1k6lPZujChdG87uVM: \
+       -d device_iden=ujChdG87uVMdjAiVsKnSTs \
+       -d type=note \
+       -d title=${TITLE} \
+       -d body=${MESSAGE}
+else
+    curl https://api.pushbullet.com/api/pushes -u v13Kku1VLbTZM03XxmGrqu5qT4HM1k6lPZujChdG87uVM: \
+        -d device_iden=ujChdG87uVMdjAiVsKnSTs \
+        -d type=link \
+        -d title=${TITLE} \
+        -d url=${URL}
+fi
 
-    /usr/bin/curl -s -d user_credentials=${APIKEY} \
-        -d "notification[long_message]=${MESSAGE}" \
-        -d "notification[title]=${TITLE}" \
-        -d "notification[sound]=${SOUND}" \
-        ${URL} 
+exit
+
+#    /usr/bin/curl -s -d user_credentials=${APIKEY} \
+#        -d "notification[long_message]=${MESSAGE}" \
+#        -d "notification[title]=${TITLE}" \
+#        -d "notification[sound]=${SOUND}" \
+#        ${URL} > /dev/null
 
 #       -d "notification[message]=${MESSAGE}" \
 #        -d "notification[subtitle]=${SUBTITLE}" \
