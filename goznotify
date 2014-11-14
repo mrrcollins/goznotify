@@ -42,22 +42,20 @@ shift $((OPTIND-1))
 MESSAGE=${1}
 
 # Send a notification
-if [ -z "${URL}" ]
-then
-    curl https://api.pushbullet.com/api/pushes -u v13Kku1VLbTZM03XxmGrqu5qT4HM1k6lPZujChdG87uVM: \
-       -d device_iden=ujChdG87uVMdjAiVsKnSTs \
-       -d type=note \
-       -d title=${TITLE} \
-       -d body=${MESSAGE}
-else
-    curl https://api.pushbullet.com/api/pushes -u v13Kku1VLbTZM03XxmGrqu5qT4HM1k6lPZujChdG87uVM: \
-        -d device_iden=ujChdG87uVMdjAiVsKnSTs \
-        -d type=link \
-        -d title=${TITLE} \
-        -d url=${URL}
-fi
-
-exit
+#if [ -z "${URL}" ]
+#then
+#    curl https://api.pushbullet.com/api/pushes -u ${APIKEY}: \
+#       -d device_iden=${DEVICE} \
+#       -d type=note \
+#       -d "title=${TITLE}" \
+#       -d "body=${MESSAGE}" > /dev/null
+#else
+#    curl https://api.pushbullet.com/api/pushes -u ${APIKEY}: \
+#        -d device_iden=${DEVICE} \
+#        -d type=link \
+#        -d "title=${TITLE}" \
+#        -d "url=${URL}" > /dev/null
+#fi
 
 #    /usr/bin/curl -s -d user_credentials=${APIKEY} \
 #        -d "notification[long_message]=${MESSAGE}" \
@@ -65,12 +63,17 @@ exit
 #        -d "notification[sound]=${SOUND}" \
 #        ${URL} > /dev/null
 
-#       -d "notification[message]=${MESSAGE}" \
-#        -d "notification[subtitle]=${SUBTITLE}" \
-#        -d "notification[long_message_preview]=${MESSAGE}" \
-#        -d "notification[message_level]=2" \
-#        -d "notification[silent]=0" \
-#        -d "notification[icon_url]=${ICONURL}" \
-#        -d "notification[action_loc_key]=${ACTION}" \
-#        -d "notification[run_command]=${URL}" \
+
+    /usr/bin/curl -s -d user_credentials=${APIKEY} \
+       -d "notification[message]=${MESSAGE}" \
+       -d "notification[long_message]=${MESSAGE}" \
+       -d "notification[title]=${TITLE}" \
+       -d "notification[subtitle]=${SUBTITLE}" \
+        -d "notification[long_message_preview]=${MESSAGE}" \
+        -d "notification[message_level]=2" \
+        -d "notification[silent]=0" \
+        -d "notification[icon_url]=${ICONURL}" \
+        -d "notification[action_loc_key]=${ACTION}" \
+        -d "notification[run_command]=${URL}" \
+        https://www.appnotifications.com/account/notifications.json > /dev/null
 
