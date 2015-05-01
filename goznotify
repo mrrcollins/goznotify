@@ -40,22 +40,22 @@ done
 shift $((OPTIND-1))
 
 MESSAGE=${1}
+POSTDATE="{\"type\": \"note\", \"title\": \"${TITLE}\", \"body\": \"${MESSAGE}\"}"
 
 # Send a notification
-#if [ -z "${URL}" ]
-#then
-#    curl https://api.pushbullet.com/api/pushes -u ${APIKEY}: \
-#       -d device_iden=${DEVICE} \
-#       -d type=note \
-#       -d "title=${TITLE}" \
-#       -d "body=${MESSAGE}" > /dev/null
-#else
-#    curl https://api.pushbullet.com/api/pushes -u ${APIKEY}: \
-#        -d device_iden=${DEVICE} \
-#        -d type=link \
-#        -d "title=${TITLE}" \
-#        -d "url=${URL}" > /dev/null
-#fi
+# curl --header 'Authorization: Bearer <your_access_token_here>' -X POST https://api.pushbullet.com/v2/pushes --header 'Content-Type: application/json' --data-binary '{"type": "note", "title": "Note Title", "body": "Note Body"}'
+if [ -z "${URL}" ]
+then
+    curl -s -X POST https://api.pushbullet.com/v2/pushes \
+        --header "Authorization: Bearer ${APIKEY}" \
+        --header 'Content-Type: application/json' \
+        --data-binary "{\"type\": \"note\", \"title\": \"${MESSAGE}\", \"body\": \"${TITLE} ${MESSAGE}\"}" > /dev/null
+else
+     curl -s -X POST https://api.pushbullet.com/v2/pushes \
+        --header "Authorization: Bearer ${APIKEY}" \
+        --header 'Content-Type: application/json' \
+        --data-binary "{\"type\": \"note\", \"title\": \"${MESSAGE}\", \"body\": \"${TITLE} ${MESSAGE}\"}" > /dev/null
+fi
 
 #    /usr/bin/curl -s -d user_credentials=${APIKEY} \
 #        -d "notification[long_message]=${MESSAGE}" \
@@ -64,16 +64,16 @@ MESSAGE=${1}
 #        ${URL} > /dev/null
 
 
-    /usr/bin/curl -s -d user_credentials=${APIKEY} \
-       -d "notification[message]=${MESSAGE}" \
-       -d "notification[long_message]=${MESSAGE}" \
-       -d "notification[title]=${TITLE}" \
-       -d "notification[subtitle]=${SUBTITLE}" \
-        -d "notification[long_message_preview]=${MESSAGE}" \
-        -d "notification[message_level]=2" \
-        -d "notification[silent]=0" \
-        -d "notification[icon_url]=${ICONURL}" \
-        -d "notification[action_loc_key]=${ACTION}" \
-        -d "notification[run_command]=${URL}" \
-        https://www.appnotifications.com/account/notifications.json > /dev/null
-
+#    /usr/bin/curl -s -d user_credentials=${APIKEY} \
+#       -d "notification[message]=${MESSAGE}" \
+#       -d "notification[long_message]=${MESSAGE}" \
+#       -d "notification[title]=${TITLE}" \
+#       -d "notification[subtitle]=${SUBTITLE}" \
+#        -d "notification[long_message_preview]=${MESSAGE}" \
+#        -d "notification[message_level]=2" \
+#        -d "notification[silent]=0" \
+#        -d "notification[icon_url]=${ICONURL}" \
+#        -d "notification[action_loc_key]=${ACTION}" \
+#        -d "notification[run_command]=${URL}" \
+#        https://www.appnotifications.com/account/notifications.json > /dev/null
+#
