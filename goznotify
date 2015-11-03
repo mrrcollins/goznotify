@@ -44,18 +44,18 @@ POSTDATE="{\"type\": \"note\", \"title\": \"${TITLE}\", \"body\": \"${MESSAGE}\"
 
 # Send a notification
 # curl --header 'Authorization: Bearer <your_access_token_here>' -X POST https://api.pushbullet.com/v2/pushes --header 'Content-Type: application/json' --data-binary '{"type": "note", "title": "Note Title", "body": "Note Body"}'
-if [ -z "${URL}" ]
-then
-    curl -s -X POST https://api.pushbullet.com/v2/pushes \
-        --header "Authorization: Bearer ${APIKEY}" \
-        --header 'Content-Type: application/json' \
-        --data-binary "{\"type\": \"note\", \"title\": \"${MESSAGE}\", \"body\": \"${TITLE} ${MESSAGE}\"}" > /dev/null
-else
-     curl -s -X POST https://api.pushbullet.com/v2/pushes \
-        --header "Authorization: Bearer ${APIKEY}" \
-        --header 'Content-Type: application/json' \
-        --data-binary "{\"type\": \"note\", \"title\": \"${MESSAGE}\", \"body\": \"${TITLE} ${MESSAGE}\"}" > /dev/null
-fi
+#if [ -z "${URL}" ]
+#then
+#    curl -s -X POST https://api.pushbullet.com/v2/pushes \
+#        --header "Authorization: Bearer ${APIKEY}" \
+#        --header 'Content-Type: application/json' \
+#        --data-binary "{\"type\": \"note\", \"title\": \"${MESSAGE}\", \"body\": \"${TITLE} ${MESSAGE}\"}" > /dev/null
+#else
+#     curl -s -X POST https://api.pushbullet.com/v2/pushes \
+#        --header "Authorization: Bearer ${APIKEY}" \
+#        --header 'Content-Type: application/json' \
+#        --data-binary "{\"type\": \"note\", \"title\": \"${MESSAGE}\", \"body\": \"${TITLE} ${MESSAGE}\"}" > /dev/null
+#fi
 
 #    /usr/bin/curl -s -d user_credentials=${APIKEY} \
 #        -d "notification[long_message]=${MESSAGE}" \
@@ -63,6 +63,10 @@ fi
 #        -d "notification[sound]=${SOUND}" \
 #        ${URL} > /dev/null
 
+/usr/bin/curl -s -X POST \
+    https://api.telegram.org/bot${APIKEY}/sendMessage \
+    -d text="${MESSAGE}" \
+    -d chat_id=${TO} > /dev/null
 
 #    /usr/bin/curl -s -d user_credentials=${APIKEY} \
 #       -d "notification[message]=${MESSAGE}" \
@@ -75,5 +79,5 @@ fi
 #        -d "notification[icon_url]=${ICONURL}" \
 #        -d "notification[action_loc_key]=${ACTION}" \
 #        -d "notification[run_command]=${URL}" \
-#        https://www.appnotifications.com/account/notifications.json > /dev/null
-#
+#        https://api.faast.io/notifications.json > /dev/null
+
