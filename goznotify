@@ -63,10 +63,22 @@ POSTDATE="{\"type\": \"note\", \"title\": \"${TITLE}\", \"body\": \"${MESSAGE}\"
 #        -d "notification[sound]=${SOUND}" \
 #        ${URL} > /dev/null
 
-/usr/bin/curl -s -X POST \
+# Telegram Zuul
+
+ /usr/bin/curl -s -X POST \
     https://api.telegram.org/bot${APIKEY}/sendMessage \
     -d text="${MESSAGE}" \
     -d chat_id=${TO} > /dev/null
+
+# curl -s \
+#     --form-string "token=${APIKEY}" \
+#     --form-string "user=${USERKEY}" \
+#     --form-string "message=${MESSAGE}" \
+#     --form-string "title=${TITLE}" \
+#     https://api.pushover.net/1/messages.json > /dev/null
+
+
+#Faast
 
 #    /usr/bin/curl -s -d user_credentials=${APIKEY} \
 #       -d "notification[message]=${MESSAGE}" \
@@ -80,4 +92,4 @@ POSTDATE="{\"type\": \"note\", \"title\": \"${TITLE}\", \"body\": \"${MESSAGE}\"
 #        -d "notification[action_loc_key]=${ACTION}" \
 #        -d "notification[run_command]=${URL}" \
 #        https://api.faast.io/notifications.json > /dev/null
-
+#
